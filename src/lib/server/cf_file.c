@@ -1339,7 +1339,12 @@ static int cf_section_read(char const *filename, int *lineno, FILE *fp,
 		 */
 		if (strcmp(buff[1], "map") == 0) {
 			css = process_map(this, &ptr, buff, filename, lineno);
-			if (!css) goto error;
+
+			/*
+			 *	Need to be context aware before we fail on map
+			 *	it's a real section name in the sigtran module.
+			 */
+			if (!css) goto alloc_section;
 
 			in_map = true;
 
